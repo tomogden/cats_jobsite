@@ -1,0 +1,85 @@
+/**
+ * CATS JobSite CSS Style Sheet
+ *
+ * This file is part of CATS JobSite.
+ *
+ * Copyright (C) 2009 - 2010 CATS Software, Inc.
+ *
+ * CATS JobSite is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * CATS JobSite is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with CATS JobSite in a file named "COPYING" in the root directory.
+ * If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/* Navigation above listings when sidebar is disabled */
+#ccms-navigation { list-style: none; margin: 10px 0 0 0; padding: 0; }
+    #ccms-navigation li { display: inline; float: left; margin: 0; padding: 0 25px 0 0; }
+    #ccms-navigation img { vertical-align: middle; width: 16px; height: 16px; }
+
+.ccms-clear { clear: both; }
+
+/* Job Listings Filtering (search, sort) */
+.ccms-filters {}
+    .ccms-filters label { float: left; width: 80px; padding-top: 5px; }
+    .ccms-filters label.error { clear: both; display: block; width: auto; padding: 0 0 5px 80px; color: red; border: 0; background: none; }
+    .ccms-filters p { margin: 0 0 0 0; clear: both; }
+    .ccms-filters em { font-weight: bold; padding-right: 3px; }
+
+/* Resume preview container */
+#ccms-resume { background: white; border: 1px solid #c0c0c0; padding: 15px; margin: 10px 0 0 0; }
+
+/* Job Application / Send To Friend */
+.ccms-application { padding: 0 10px 10px 10px; }
+    .ccms-application label { float: left; width: 200px; padding-top: 5px; }
+    .ccms-application label.error { clear: both; display: block; width: auto; padding: 0 0 0 213px; color: red; border: 0; background: none; }
+    .ccms-application p { margin: 5px 0 0 0; clear: both; }
+    .ccms-application em { font-weight: bold; padding-right: 3px; vertical-align: top; }
+        .ccms-application em span { visibility: hidden; }
+    .ccms-application div.ccms-comment { clear: both; padding: 0 0 5px 213px; color: #666; }
+    .ccms-application textarea { height: 50px; }
+
+/* File size in profile resume section */
+.ccms-profile .ccms-size { color: #666; }
+
+/* Field sizes (from CATS) */
+.ccms-small { width: 100px; }
+.ccms-medium { width: 200px; }
+.ccms-large { width: 300px; }
+
+/* Sidebar Login Fieldset */
+.ccms-sidebar-login { padding: 0 10px 10px 10px; }
+    .ccms-sidebar-login label { float: left; width: 80px; padding-top: 5px; }
+    .ccms-sidebar-login label.error { clear: both; display: block; width: auto; padding: 0 0 5px 80px; color: red; border: 0; background: none; }
+    .ccms-sidebar-login p { margin: 5px 0 0 0; clear: both; }
+    .ccms-sidebar-login em { font-weight: bold; padding-right: 3px; }
+
+/* Sidebar Recent Jobs Fieldset */
+.ccms-recent-jobs ul { margin: 0; padding: 0; }
+    .ccms-recent-jobs li { margin: 0 0 0 10px; padding: 0 0 5px 0px; }
+
+/* Sidebar top jobs Fieldset */
+.ccms-topjobs ul { list-style: none; margin: 0; padding: 0; }
+    .ccms-topjobs ul li { margin: 0 0 10px 0; padding: 0; }
+    .ccms-topjobs .ccms-posted { font-weight: bold; }
+    .ccms-topjobs .ccms-excerpt { color: #666; font-style: italic; }
+
+/* Job Listings */
+.ccms-listing td { vertical-align: top; }
+
+/* CATS Footer */
+.ccms-footer { margin: 5px 0 15px 0; }
+
+/* Global attribution footer (hidden) */
+.ccms-attribution { display: none; }
+
+.ccms-button-container { float: left; margin-right: 5px; }
+
