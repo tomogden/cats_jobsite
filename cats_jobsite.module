@@ -9,79 +9,73 @@ chdir($cwd);
 
 /**
  * Drupal hook_init - Sets up globals/configuration parameters
- * @return  null
+ * @return  NULL
  */
-function cats_jobsite_init()
-{
-    $cwd = getcwd();
-    chdir($dir = dirname(__FILE__));
+function cats_jobsite_init() {
+  $cwd = getcwd();
+  chdir($dir = dirname(__FILE__));
 
-    /* Creates our custom wrapper object which can be extended for integration into websites or CMS's */
-    class MyWrapper extends CATS_Wrapper {
-        public function getURI($uri)
-        {
-            return 'index.php?q=cats_jobsite&' . $uri;
-        }
-
-        public function getOption($name)
-        {
-            return variable_get('cats_cms_'.$name, false);
-        }
-
-        public function getRelativeURL($name)
-        {
-            return sprintf('/%s/images/%s', drupal_get_path('module', 'cats_jobsite'), $name);
-        }
-
-        public function isAdmin()
-        {
-	       global $user;
-	       return $user->uid === 1;
-        }
-        
-        public function getLocalizedString($text)
-        {
-            /* Path locally so that we find the cache directory */
-            $cwd = getcwd();
-            chdir(dirname(__FILE__));
-            
-            /* Replace quotes for storage. */
-            $text = str_replace('"', '&quot;', $text);
-            
-            /* Replace backslashes for storage. */
-            $text = str_replace('\\', '&92;', $text);
-            
-            /* Standardize line returns */
-            $text = preg_replace('/[\r\n]+/', "\n", $text);
-            
-            /* Make sure it exists in our mock language file so it can be detected */
-            $this->_session->useMockLang($text);
-            
-            /* Path back */
-            chdir($cwd);
-            
-            /* Drupal Gettext function */
-            $text = t($text);
-            
-            /* Reinstate quotes */
-            $text = str_replace('&quot;', '"', $text);
-            
-            /* Reinstate backslashes */
-            $text = str_replace('&92;', '\\', $text);
-            
-            return $text;
-        }
+  /* Creates our custom wrapper object which can be extended for integration into websites or CMS's */
+  class MyWrapper extends CATS_Wrapper {
+    public function getURI($uri) {
+      return 'index.php?q=cats_jobsite&' . $uri;
     }
 
-    global $cats_wrapper;
-    $cats_wrapper = new MyWrapper();
-    chdir($cwd);
+    public function getOption($name) {
+      return variable_get('cats_cms_' . $name, FALSE);
+    }
 
-    // Add the stylesheet
-    drupal_add_css(drupal_get_path('module', 'cats_jobsite').'/cats_jobsite_style.css');
+    public function getRelativeURL($name) {
+      return sprintf('/%s/images/%s', drupal_get_path('module', 'cats_jobsite'), $name);
+    }
 
-    // Add the validation javascript
-    drupal_add_js(drupal_get_path('module', 'cats_jobsite').'/js/jquery-validate/jquery.validate.min.js');
+    public function isAdmin() {
+       global $user;
+       return $user->uid === 1;
+    }
+
+    public function getLocalizedString($text) {
+      /* Path locally so that we find the cache directory */
+      $cwd = getcwd();
+      chdir(dirname(__FILE__));
+
+      /* Replace quotes for storage. */
+      $text = str_replace('"', '&quot;', $text);
+
+      /* Replace backslashes for storage. */
+      $text = str_replace('\\', '&92;', $text);
+
+      /* Standardize line returns */
+      $text = preg_replace('/[\r\n]+/', "\n", $text);
+
+      /* Make sure it exists in our mock language file so it can be detected */
+      $this->_session->useMockLang($text);
+
+      /* Path back */
+      chdir($cwd);
+
+      /* Drupal Gettext function */
+      $text = t($text);
+
+      /* Reinstate quotes */
+      $text = str_replace('&quot;', '"', $text);
+
+      /* Reinstate backslashes */
+      $text = str_replace('&92;', '\\', $text);
+
+      return $text;
+    }
+  }
+
+  global $_cats_jobsite_cats_wrapper;
+  $_cats_jobsite_cats_wrapper = new MyWrapper();
+  chdir($cwd);
+
+  // Add the stylesheet
+  drupal_add_css(drupal_get_path('module', 'cats_jobsite') . '/cats_jobsite_style.css');
+
+  // Add the validation javascript
+  drupal_add_js(drupal_get_path('module', 'cats_jobsite') . '/js/jquery-validate/jquery.validate.min.js');
 }
 
 /**
@@ -89,26 +83,25 @@ function cats_jobsite_init()
  *
  * @return  Array   List of paths
  */
-function cats_jobsite_menu()
-{
-    $items['cats_jobsite'] = array(
-        'title' => 'Job Listings',
-        'description' => 'Configure the CATS Job Listings on your website.',
-        'page callback' => 'cats_jobsite_main',
-        'access callback' => true,
-        'type' => MENU_NORMAL_ITEM,
-    );
+function cats_jobsite_menu() {
+  $items['cats_jobsite'] = array(
+    'title' => 'Job Listings',
+    'description' => 'Configure the CATS Job Listings on your website.',
+    'page callback' => 'cats_jobsite_main',
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
 
-    $items['admin/settings/cats_jobsite'] = array(
-        'title' => 'CATS Module Configuration',
-        'description' => 'Configure the CATS Job Listings on your website.',
-        'page arguments' => array('cats_jobsite_settings'),
-        'page callback' => 'drupal_get_form',
-        'access callback' => true,
-        'type' => MENU_NORMAL_ITEM,
-    );
+  $items['admin/settings/cats_jobsite'] = array(
+    'title' => 'CATS Module Configuration',
+    'description' => 'Configure the CATS Job Listings on your website.',
+    'page arguments' => array('cats_jobsite_settings'),
+    'page callback' => 'drupal_get_form',
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
 
-    return $items;
+  return $items;
 }
 
 /**
@@ -116,9 +109,8 @@ function cats_jobsite_menu()
  *
  * @return  string  HTML output
  */
-function cats_jobsite_main()
-{
-    return CATS_Utility::getControllerOutput(CATS_Utility::getPost('cc'));
+function cats_jobsite_main() {
+  return CATS_Utility::getControllerOutput(CATS_Utility::getPost('cc'));
 }
 
 /**
@@ -126,156 +118,155 @@ function cats_jobsite_main()
  *
  * @return  Array   Form for Drupal to display
  */
-function cats_jobsite_settings()
-{
-    // Account Settings Section
-    $form['cats_jobsite_account'] = array(
-        '#type'     => 'fieldset',
-        '#title'    => 'Account Settings',
-        '#description' => 'Sets your CATS API credentials.',
-    );
+function cats_jobsite_settings() {
+  // Account Settings Section
+  $form['cats_jobsite_account'] = array(
+    '#type'   => 'fieldset',
+    '#title'  => 'Account Settings',
+    '#description' => 'Sets your CATS API credentials.',
+  );
 
-    // CATS Company ID
-    $form['cats_jobsite_account']['cats_cms_company_id'] = array(
-      '#type' => 'textfield',
-      '#title' => 'Company ID',
-      '#description' => 'When logged into CATS, this value shows up on the upper left corner of the screen near the product logo.',
-      '#default_value' => variable_get('cats_cms_company_id', ''),
-      '#required' => true,
-    );
+  // CATS Company ID
+  $form['cats_jobsite_account']['cats_cms_company_id'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Company ID',
+    '#description' => 'When logged into CATS, this value shows up on the upper left corner of the screen near the product logo.',
+    '#default_value' => variable_get('cats_cms_company_id', ''),
+    '#required' => TRUE,
+  );
 
-    // CATS Transaction Code
-    $form['cats_jobsite_account']['cats_cms_trans_code'] = array(
-      '#type' => 'textfield',
-      '#title' => 'Transaction Code',
-      '#description' => 'Serves as a password. Get a code by logging into CATS, clicking on the Settings tab, then "User Management".',
-      '#default_value' => variable_get('cats_cms_trans_code', ''),
-      '#required' => true,
-    );
+  // CATS Transaction Code
+  $form['cats_jobsite_account']['cats_cms_trans_code'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Transaction Code',
+    '#description' => 'Serves as a password. Get a code by logging into CATS, clicking on the Settings tab, then "User Management".',
+    '#default_value' => variable_get('cats_cms_trans_code', ''),
+    '#required' => TRUE,
+  );
 
-    // CATS External URL
-    $form['cats_jobsite_account']['cats_cms_external_url'] = array(
-      '#type' => 'textfield',
-      '#title' => 'External URL',
-      '#description' => 'Paste this into "CATS -> Settings -> General Configuration -> API / Custom Careers Website URL" to have all your jobs and RSS feeds point here.',
-      '#default_value' => '',
-      '#disabled' => true,
-    );
+  // CATS External URL
+  $form['cats_jobsite_account']['cats_cms_external_url'] = array(
+    '#type' => 'textfield',
+    '#title' => 'External URL',
+    '#description' => 'Paste this into "CATS -> Settings -> General Configuration -> API / Custom Careers Website URL" to have all your jobs and RSS feeds point here.',
+    '#default_value' => '',
+    '#disabled' => TRUE,
+  );
 
-    // Connection Settings Section
-    $form['cats_jobsite_connection'] = array(
-        '#type'     => 'fieldset',
-        '#title'    => 'Connection Settings',
-        '#description' => 'Sets how to connect to CATS.',
-    );
+  // Connection Settings Section
+  $form['cats_jobsite_connection'] = array(
+    '#type'   => 'fieldset',
+    '#title'  => 'Connection Settings',
+    '#description' => 'Sets how to connect to CATS.',
+  );
 
-    // CATS Domain
-    $form['cats_jobsite_connection']['cats_cms_domain'] = array(
-      '#type' => 'select',
-      '#title' => 'CATS Domain',
-      '#options' => array('catsone.com' => 'catsone.com', 'catsone.nl' => 'catsone.nl', 'catsbeta.com' => 'catsbeta.com'),
-      '#description' => 'If you connect to CATS through a domain other than www.catsone.com.',
-      '#default_value' => variable_get('cats_cms_domain', ''),
-      '#required' => true,
-    );
+  // CATS Domain
+  $form['cats_jobsite_connection']['cats_cms_domain'] = array(
+    '#type' => 'select',
+    '#title' => 'CATS Domain',
+    '#options' => array('catsone.com' => 'catsone.com', 'catsone.nl' => 'catsone.nl', 'catsbeta.com' => 'catsbeta.com'),
+    '#description' => 'If you connect to CATS through a domain other than www.catsone.com.',
+    '#default_value' => variable_get('cats_cms_domain', ''),
+    '#required' => TRUE,
+  );
 
-    // Enable SSL Option
-    $form['cats_jobsite_connection']['cats_cms_enable_ssl'] = array(
-      '#type' => 'checkbox',
-      '#title' => 'Enable SSL',
-      '#description' => 'Enable 128-bit SSL encryption (slight speed decrease)',
-      '#default_value' => variable_get('cats_cms_enable_ssl', ''),
-    );
+  // Enable SSL Option
+  $form['cats_jobsite_connection']['cats_cms_enable_ssl'] = array(
+    '#type' => 'checkbox',
+    '#title' => 'Enable SSL',
+    '#description' => 'Enable 128-bit SSL encryption (slight speed decrease)',
+    '#default_value' => variable_get('cats_cms_enable_ssl', ''),
+  );
 
-    // Password Hash Option
-    $form['cats_jobsite_connection']['cats_cms_hash'] = array(
-      '#type' => 'select',
-      '#title' => 'Password Hash',
-      '#options' => array('None' => 'None', 'MD5 (with salt)' => 'MD5 (with salt)', 'MD5' => 'MD5', 'SHA-1' => 'SHA-1', 'CRC32' => 'CRC32'),
-      '#description' => 'Recommended when SSL is disabled. Hashes plain text candidate passwords. Requires PHP mcrypt library.',
-      '#default_value' => variable_get('cats_cms_hash', ''),
-    );
+  // Password Hash Option
+  $form['cats_jobsite_connection']['cats_cms_hash'] = array(
+    '#type' => 'select',
+    '#title' => 'Password Hash',
+    '#options' => array('None' => 'None', 'MD5 (with salt)' => 'MD5 (with salt)', 'MD5' => 'MD5', 'SHA-1' => 'SHA-1', 'CRC32' => 'CRC32'),
+    '#description' => 'Recommended when SSL is disabled. Hashes plain text candidate passwords. Requires PHP mcrypt library.',
+    '#default_value' => variable_get('cats_cms_hash', ''),
+  );
 
-    // Connection Timeout
-    $form['cats_jobsite_connection']['cats_cms_timeout'] = array(
-      '#type' => 'textfield',
-      '#title' => 'Timeout',
-      '#description' => 'Maximum time to wait (in seconds) when connecting to CATS before an error is thrown or an old cache is used.',
-      '#size' => 3,
-      '#default_value' => variable_get('cats_cms_timeout', '10'),
-      '#required' => true,
-    );
+  // Connection Timeout
+  $form['cats_jobsite_connection']['cats_cms_timeout'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Timeout',
+    '#description' => 'Maximum time to wait (in seconds) when connecting to CATS before an error is thrown or an old cache is used.',
+    '#size' => 3,
+    '#default_value' => variable_get('cats_cms_timeout', '10'),
+    '#required' => TRUE,
+  );
 
-    // Cache Time-to-Live
-    $form['cats_jobsite_connection']['cats_cms_cache'] = array(
-      '#type' => 'textfield',
-      '#title' => 'Cache Time-to-Live',
-      '#description' => 'Number of seconds to cache responses for before new data is requested. It is highly recommended to set this value higher than 300 (5 minutes). A good default value is 600 (10 minutes).',
-      '#size' => 3,
-      '#default_value' => variable_get('cats_cms_cache', '600'),
-      '#required' => true,
-    );
+  // Cache Time-to-Live
+  $form['cats_jobsite_connection']['cats_cms_cache'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Cache Time-to-Live',
+    '#description' => 'Number of seconds to cache responses for before new data is requested. It is highly recommended to set this value higher than 300 (5 minutes). A good default value is 600 (10 minutes).',
+    '#size' => 3,
+    '#default_value' => variable_get('cats_cms_cache', '600'),
+    '#required' => TRUE,
+  );
 
-    // Display Settings Section
-    $form['cats_jobsite_display'] = array(
-        '#type'     => 'fieldset',
-        '#title'    => 'Display Settings',
-        '#description' => 'Sets certain display preferences.',
-    );
+  // Display Settings Section
+  $form['cats_jobsite_display'] = array(
+    '#type'   => 'fieldset',
+    '#title'  => 'Display Settings',
+    '#description' => 'Sets certain display preferences.',
+  );
 
-    // Jobs Per Page
-    $form['cats_jobsite_display']['cats_cms_jobsperpage'] = array(
-      '#type' => 'textfield',
-      '#title' => 'Jobs Per Page',
-      '#description' => 'Number of jobs per page when viewing the job listings.',
-      '#size' => 3,
-      '#default_value' => variable_get('cats_cms_jobsperpage', '20'),
-    );
+  // Jobs Per Page
+  $form['cats_jobsite_display']['cats_cms_jobsperpage'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Jobs Per Page',
+    '#description' => 'Number of jobs per page when viewing the job listings.',
+    '#size' => 3,
+    '#default_value' => variable_get('cats_cms_jobsperpage', '20'),
+  );
 
-    // # of Recent Jobs
-    $form['cats_jobsite_display']['cats_cms_recentjobs'] = array(
-      '#type' => 'textfield',
-      '#title' => '# of Recent Jobs',
-      '#description' => 'Number of "Recently Viewed Jobs" to show on the sidebar.',
-      '#size' => 3,
-      '#default_value' => variable_get('cats_cms_recentjobs', '5'),
-    );
+  // # of Recent Jobs
+  $form['cats_jobsite_display']['cats_cms_recentjobs'] = array(
+    '#type' => 'textfield',
+    '#title' => '# of Recent Jobs',
+    '#description' => 'Number of "Recently Viewed Jobs" to show on the sidebar.',
+    '#size' => 3,
+    '#default_value' => variable_get('cats_cms_recentjobs', '5'),
+  );
 
-    // # of Top Jobs
-    $form['cats_jobsite_display']['cats_cms_topjobs'] = array(
-      '#type' => 'textfield',
-      '#title' => '# of Top Jobs',
-      '#description' => 'Number of "Top Viewed Jobs" to show on the sidebar.',
-      '#size' => 3,
-      '#default_value' => variable_get('cats_cms_topjobs', '5'),
-    );
+  // # of Top Jobs
+  $form['cats_jobsite_display']['cats_cms_topjobs'] = array(
+    '#type' => 'textfield',
+    '#title' => '# of Top Jobs',
+    '#description' => 'Number of "Top Viewed Jobs" to show on the sidebar.',
+    '#size' => 3,
+    '#default_value' => variable_get('cats_cms_topjobs', '5'),
+  );
 
-    // Description Excerpt
-    $form['cats_jobsite_display']['cats_cms_excerpt'] = array(
-      '#type' => 'textfield',
-      '#title' => 'Description Excerpt',
-      '#description' => 'Number of characters to show when truncating a job\'s description.',
-      '#size' => 3,
-      '#default_value' => variable_get('cats_cms_excerpt', '150'),
-    );
+  // Description Excerpt
+  $form['cats_jobsite_display']['cats_cms_excerpt'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Description Excerpt',
+    '#description' => 'Number of characters to show when truncating a job\'s description.',
+    '#size' => 3,
+    '#default_value' => variable_get('cats_cms_excerpt', '150'),
+  );
 
-    // Attribution
-    $form['cats_jobsite_display']['cats_cms_attribution'] = array(
-      '#type' => 'select',
-      '#title' => 'Attribution',
-      '#options' => array('0' => 'None', '1' => 'Text', '2' => 'Image',),
-      '#description' => 'By using this plug-in, we ask that you provide attribution back to CATS.',
-      '#default_value' => variable_get('cats_cms_attribution', '2'),
-    );
+  // Attribution
+  $form['cats_jobsite_display']['cats_cms_attribution'] = array(
+    '#type' => 'select',
+    '#title' => 'Attribution',
+    '#options' => array('0' => 'None', '1' => 'Text', '2' => 'Image', ),
+    '#description' => 'By using this plug-in, we ask that you provide attribution back to CATS.',
+    '#default_value' => variable_get('cats_cms_attribution', '2'),
+  );
 
-    $form['#validate'][] = 'cats_jobsite_settings_validate';
+  $form['#validate'][] = 'cats_jobsite_settings_validate';
 
-    // Send our form to Drupal to make a settings page
-    return system_settings_form($form);
+  // Send our form to Drupal to make a settings page
+  return system_settings_form($form);
 }
 
 /**
- * Returns false if the integer value of $value is between $min and $max
+ * Returns FALSE if the integer value of $value is between $min and $max
  *
  * @param   mixed   value to be checked.
  * @param   integer minimum integer value.
@@ -283,25 +274,22 @@ function cats_jobsite_settings()
  * @param   string  name of the value being checked.
  * @return  string  error message to be displayed to the user.
  */
-function cats_jobsite_validate_numeric($value, $min, $max, $name = false)
-{
-    // Enforce an integer value
-    $value = intval($value);
-    // Check the value with the min and max
-    if ($value < $min || $value > $max)
-    {
-        // Error message
-        $message = "must be between $min - $max";
-        // Add the name of the value to the error message
-        if (!empty($name))
-        {
-            $message = $name . ' ' . $message;
-        }
-        return $message;
+function cats_jobsite_validate_numeric($value, $min, $max, $name = FALSE) {
+  // Enforce an integer value
+  $value = intval($value);
+  // Check the value with the min and max
+  if ($value < $min || $value > $max) {
+    // Error message
+    $message = "must be between $min - $max";
+    // Add the name of the value to the error message
+    if (!empty($name)) {
+      $message = $name . ' ' . $message;
     }
+    return $message;
+  }
 
-    // No errors found
-    return false;
+  // No errors found
+  return FALSE;
 }
 
 /**
@@ -309,73 +297,64 @@ function cats_jobsite_validate_numeric($value, $min, $max, $name = false)
  *
  * @param   Array   Drupal form
  * @param   Array   Drupal form_state array
- * @return  null
+ * @return  NULL
  */
-function cats_jobsite_settings_validate($form, &$form_state)
-{
-    // Validate Timeout
-    if ($message = cats_jobsite_validate_numeric($form_state['values']['cats_cms_timeout'], 1, 60, 'Timeout'))
-    {
-        form_set_error('cats_cms_timeout', $message);
-    }
+function cats_jobsite_settings_validate($form, &$form_state) {
+  // Validate Timeout
+  if ($message = cats_jobsite_validate_numeric($form_state['values']['cats_cms_timeout'], 1, 60, 'Timeout')) {
+    form_set_error('cats_cms_timeout', $message);
+  }
 
-    // Validate Cache Time-to-Live
-    if ($message = cats_jobsite_validate_numeric($form_state['values']['cats_cms_cache'], 1, 2400, 'Cache Time-to-Live'))
-    {
-        form_set_error('cats_cms_cache', $message);
-    }
+  // Validate Cache Time-to-Live
+  if ($message = cats_jobsite_validate_numeric($form_state['values']['cats_cms_cache'], 1, 2400, 'Cache Time-to-Live')) {
+    form_set_error('cats_cms_cache', $message);
+  }
 
-    // Validate Jobs Per Page
-    if ($message = cats_jobsite_validate_numeric($form_state['values']['cats_cms_jobsperpage'], 1, 100, 'Jobs per page'))
-    {
-        form_set_error('cats_cms_jobsperpage', $message);
-    }
+  // Validate Jobs Per Page
+  if ($message = cats_jobsite_validate_numeric($form_state['values']['cats_cms_jobsperpage'], 1, 100, 'Jobs per page')) {
+    form_set_error('cats_cms_jobsperpage', $message);
+  }
 
-    // Validate Recent Jobs
-    if ($message = cats_jobsite_validate_numeric($form_state['values']['cats_cms_recentjobs'], 1, 20, '# of Recent Jobs'))
-    {
-        form_set_error('cats_cms_recentjobs', $message);
-    }
+  // Validate Recent Jobs
+  if ($message = cats_jobsite_validate_numeric($form_state['values']['cats_cms_recentjobs'], 1, 20, '# of Recent Jobs')) {
+    form_set_error('cats_cms_recentjobs', $message);
+  }
 
-    // Validate Top Jobs
-    if ($message = cats_jobsite_validate_numeric($form_state['values']['cats_cms_topjobs'], 1, 20, '# of Top Jobs'))
-    {
-        form_set_error('cats_cms_topjobs', $message);
-    }
+  // Validate Top Jobs
+  if ($message = cats_jobsite_validate_numeric($form_state['values']['cats_cms_topjobs'], 1, 20, '# of Top Jobs')) {
+    form_set_error('cats_cms_topjobs', $message);
+  }
 
-    // Validate Description Excerpt
-    if ($message = cats_jobsite_validate_numeric($form_state['values']['cats_cms_excerpt'], 1, 500, 'Description Excerpt'))
-    {
-        form_set_error('cats_cms_excerpt', $message);
-    }
+  // Validate Description Excerpt
+  if ($message = cats_jobsite_validate_numeric($form_state['values']['cats_cms_excerpt'], 1, 500, 'Description Excerpt')) {
+    form_set_error('cats_cms_excerpt', $message);
+  }
 
-    // Check the transaction code by doing a test API
-    try
-    {
-        // Get the current values
-        $companyID  = variable_get('cats_cms_company_id', '');
-        $transCode  = variable_get('cats_cms_trans_code', '');
-        $domain     = variable_get('cats_cms_domain', '');
-        // Set Temporary values
-        variable_set('cats_cms_company_id', $form_state['values']['cats_cms_company_id']);
-        variable_set('cats_cms_trans_code', $form_state['values']['cats_cms_trans_code']);
-        variable_set('cats_cms_domain', $form_state['values']['cats_cms_domain']);
-        // Try to call the API
-        $api = new CATS_API();
-        $api->getOptions();
-    }
-    catch(Exception $e)
-    {
-        // Set the error message for the user
-        form_set_error('cats_cms_trans_code', 'Invalid Company Id / Transaction Code');
-        // Reset the Values
-        variable_set('cats_cms_company_id', $companyID);
-        variable_set('cats_cms_trans_code', $transCode);
-        variable_set('cats_cms_domain', $domain);
-    }
+  // Check the transaction code by doing a test API
+  try {
+    // Get the current values
+    $companyID  = variable_get('cats_cms_company_id', '');
+    $transCode  = variable_get('cats_cms_trans_code', '');
+    $domain   = variable_get('cats_cms_domain', '');
+    // Set Temporary values
+    variable_set('cats_cms_company_id', $form_state['values']['cats_cms_company_id']);
+    variable_set('cats_cms_trans_code', $form_state['values']['cats_cms_trans_code']);
+    variable_set('cats_cms_domain', $form_state['values']['cats_cms_domain']);
+    // Try to call the API
+    $api = new CATS_API();
+    $api->getOptions();
+  }
+  catch (Exception $e) {
+    // Set the error message for the user
+    form_set_error('cats_cms_trans_code', 'Invalid Company Id / Transaction Code');
+    // Reset the Values
+    variable_set('cats_cms_company_id', $companyID);
+    variable_set('cats_cms_trans_code', $transCode);
+    variable_set('cats_cms_domain', $domain);
+  }
 
-    // Reset the Cache after changes
-    CATS_Utility::clearCache();
+  // Reset the Cache after changes
+  CATS_Utility::clearCache();
 }
 
 /**
@@ -385,75 +364,31 @@ function cats_jobsite_settings_validate($form, &$form_state)
  * @param   Array   Edit array
  * @return  Array   Block details
  */
-function cats_jobsite_block($op = 'list', $delta = 0, $edit = array())
-{
-    switch($op)
-    {
-        case 'list':
-            $blocks = array(
-                'sidebarprofile' => array(
-                    'info'  => 'CATS Sidebar - Login / Profile',
-                    'cache' => BLOCK_NO_CACHE,
-                ),
-                'sidebarrecentjobs' => array(
-                    'info'  => 'CATS Sidebar - Recent Jobs',
-                    'cache' => BLOCK_NO_CACHE,
-                ),
-                'sidebartopjobs' => array(
-                    'info'  => 'CATS Sidebar - Top Jobs',
-                    'cache' => BLOCK_NO_CACHE,
-                ),
-            );
-            return $blocks;
+function cats_jobsite_block($op = 'list', $delta = 0, $edit = array()) {
+  switch ($op) {
+    case 'list':
+      $blocks = array(
+        'sidebarprofile' => array(
+          'info'  => 'CATS Sidebar - Login / Profile',
+          'cache' => BLOCK_NO_CACHE,
+        ),
+        'sidebarrecentjobs' => array(
+          'info'  => 'CATS Sidebar - Recent Jobs',
+          'cache' => BLOCK_NO_CACHE,
+        ),
+        'sidebartopjobs' => array(
+          'info'  => 'CATS Sidebar - Top Jobs',
+          'cache' => BLOCK_NO_CACHE,
+        ),
+      );
+      return $blocks;
 
-// Configuration Moved to Site Configuration
-//        case 'configure':
-//            $form = array();
-//            switch($delta)
-//            {
-//                case 'recentjobs':
-//                    $form['cats_cms_recentjobs'] = array(
-//                      '#type' => 'textfield',
-//                      '#title' => '# of Recent Jobs',
-//                      '#description' => 'Number of "Recent Jobs" to show on the sidebar.',
-//                      '#size' => 3,
-//                      '#default_value' => variable_get('cats_cms_recentjobs', '5'),
-//                    );
-//                    break;
-//
-//                case 'topjobs':
-//                    $form['cats_cms_topjobs'] = array(
-//                      '#type' => 'textfield',
-//                      '#title' => '# of Top Jobs',
-//                      '#description' => 'Number of "Top Viewed Jobs" to show on the sidebar.',
-//                      '#size' => 3,
-//                      '#default_value' => variable_get('cats_cms_topjobs', '5'),
-//                      '#validate' => array('cats_jobsite_validate_topjobs'),
-//                    );
-//                    break;
-//            }
-//            return $form;
-//
-//        case 'save':
-//            switch($delta)
-//            {
-//                case 'recentjobs':
-//                    variable_set('cats_cms_recentjobs', intval($edit['cats_cms_recentjobs']));
-//                    break;
-//
-//                case 'topjobs':
-//                    variable_set('cats_cms_topjobs', intval($edit['cats_cms_topjobs']));
-//                    break;
-//            }
-//
-//            break;
 
-        case 'view':
-            if (in_array($delta, array('sidebarprofile', 'sidebarrecentjobs', 'sidebartopjobs')))
-            {
-                $block['content'] = CATS_Utility::getControllerOutput($delta);
-            }
-            return $block;
-    }
+    case 'view':
+      if (in_array($delta, array('sidebarprofile', 'sidebarrecentjobs', 'sidebartopjobs'))) {
+        $block['content'] = CATS_Utility::getControllerOutput($delta);
+      }
+      return $block;
+  }
 
 }

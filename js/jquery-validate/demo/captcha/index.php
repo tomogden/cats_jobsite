@@ -36,12 +36,12 @@ $_SESSION['captcha_id'] = $str;
   fieldset input#captcha { width: 25%; border: 1px solid #ddd; padding: 2px; }
   fieldset input#submit { display: block; margin: 2% 0% 0% 0%; }
   #captcha.success {
-  	border: 1px solid #49c24f;
-	background: #bcffbf;
+      border: 1px solid #49c24f;
+    background: #bcffbf;
   }
   #captcha.error {
-  	border: 1px solid #c24949;
-	background: #ffbcbc;
+      border: 1px solid #c24949;
+    background: #ffbcbc;
   }
  </style>
 </head>

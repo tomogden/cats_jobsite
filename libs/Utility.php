@@ -568,9 +568,9 @@ class CATS_Utility
 
     public static function getWrapper()
     {
-        global $cats_wrapper;
+        global $_cats_jobsite_cats_wrapper;
 
-        return $cats_wrapper;
+        return $_cats_jobsite_cats_wrapper;
     }
 
     /**

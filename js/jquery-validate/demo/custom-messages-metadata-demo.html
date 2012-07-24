@@ -15,15 +15,15 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#commentForm").validate({meta: "validate"});
-	$("#commentForm2").validate();
-	$("#commentForm3").validate({
-		messages: {
-			email: {
-				required: 'Enter this!'
-			}
-		}		
-	});
+    $("#commentForm").validate({meta: "validate"});
+    $("#commentForm2").validate();
+    $("#commentForm3").validate({
+        messages: {
+            email: {
+                required: 'Enter this!'
+            }
+        }        
+    });
 
 });
 </script>
@@ -37,53 +37,53 @@ form input.submit { margin-left: 253px; }
 
 </head>
 <body>
-	
+    
 <h1 id="banner"><a href="http://bassistance.de/jquery-plugins/jquery-plugin-validation/">jQuery Validation Plugin</a> Demo</h1>
 <div id="main">
 
-<p>Take a look at the source to see how messages can be customized with metadata.</p>	
+<p>Take a look at the source to see how messages can be customized with metadata.</p>    
 
 <!-- Custom messages with custom "meta" setting -->
 <form class="cmxform" id="commentForm" method="post" action="">
-	<fieldset>
-		<legend>Please enter your email address</legend>
-		<p>
+    <fieldset>
+        <legend>Please enter your email address</legend>
+        <p>
 
-			<label for="cemail">E-Mail *</label>
-			<input id="cemail" name="email" class="{validate:{required:true, email:true, messages:{required:'Please enter your email address', email:'Please enter a valid email address'}}}"/>
-		</p>
-		<p>
-			<input class="submit" type="submit" value="Submit"/>
-		</p>
-	</fieldset>
+            <label for="cemail">E-Mail *</label>
+            <input id="cemail" name="email" class="{validate:{required:true, email:true, messages:{required:'Please enter your email address', email:'Please enter a valid email address'}}}"/>
+        </p>
+        <p>
+            <input class="submit" type="submit" value="Submit"/>
+        </p>
+    </fieldset>
 </form>
 <!-- Custom messages with default "meta" setting -->
 <form class="cmxform" id="commentForm2" method="post" action="">
-	<fieldset>
-		<legend>Please enter your email address</legend>
-		<p>
+    <fieldset>
+        <legend>Please enter your email address</legend>
+        <p>
 
-			<label for="cemail">E-Mail *</label>
-			<input id="cemail" name="email" class="{required:true, email:true, messages:{required:'Please enter your email address', email:'Please enter a valid email address'}}"/>
-		</p>
-		<p>
-			<input class="submit" type="submit" value="Submit"/>
-		</p>
-	</fieldset>
+            <label for="cemail">E-Mail *</label>
+            <input id="cemail" name="email" class="{required:true, email:true, messages:{required:'Please enter your email address', email:'Please enter a valid email address'}}"/>
+        </p>
+        <p>
+            <input class="submit" type="submit" value="Submit"/>
+        </p>
+    </fieldset>
 </form>
 <!-- Custom message for "required" in metadata is overriden by a validate option -->
 <form class="cmxform" id="commentForm3" method="post" action="">
-	<fieldset>
-		<legend>Please enter your email address</legend>
-		<p>
+    <fieldset>
+        <legend>Please enter your email address</legend>
+        <p>
 
-			<label for="cemail">E-Mail *</label>
-			<input id="cemail" name="email" class="{required:true, email:true, messages:{email:'Please enter a valid email address'}}"/>
-		</p>
-		<p>
-			<input class="submit" type="submit" value="Submit"/>
-		</p>
-	</fieldset>
+            <label for="cemail">E-Mail *</label>
+            <input id="cemail" name="email" class="{required:true, email:true, messages:{email:'Please enter a valid email address'}}"/>
+        </p>
+        <p>
+            <input class="submit" type="submit" value="Submit"/>
+        </p>
+    </fieldset>
 </form>
 
 <a href="index.html">Back to main page</a>
